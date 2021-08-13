@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://panel.websiteori.com/files/system/_file608bdc2579c6c-favicon.png">
+    <title>WebsiteOri - Template SEO</title>
+    <!-- tailwind -->
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <!-- normal css -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <!-- date -->
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/lightpick@latest/css/lightpick.css">
+</head>
+
+<body class="bg-gray-100">
+    <!-- header -->
+    <header class="px-8 py-5 text-gray-700">
+        <nav class="flex justify-between items-center">
+            <!-- kiri -->
+            <div class="leading-8">
+                <h1 class="text-2xl font-bold">Laporan Analisa SEO:
+                    <input autocomplete="off" type="text" value="PT Elgoritme"
+                        class="w-64 text-2xl font-bold text-gray-700 bg-gray-100 px-1 focus:outline-none" />
+                </h1>
+                <!-- date -->
+                <div class="flex items-center text-md">
+                    <p class="">Periode: </p>
+                    <p class="hidden" id="result-2">&nbsp;</p>
+                    <input autocomplete="off" type="text" id="demo-2" placeholder="Date Range Picker"
+                        class="w-60 bg-gray-100 px-2 focus:outline-none" />
+                </div>
+            </div>
+            <!-- kanan -->
+            <img class="w-36" src="assets/img/logo.png" alt="">
+        </nav>
+        <hr class="my-4 border-2">
+
+        <!-- hero -->
+        <div class="">
+            <h2 class="text-lg pb-3 font-medium">Gambaran Semua Kata Kunci</h2>
+            <!-- statistik -->
+            <div class="grid grid-cols-3 bg-white shadow-lg text-center rounded-md">
+                <!-- kiri -->
+                <div class="p-2">
+                    <p class="p-2">Posisi (Rata-rata)</p>
+                    <p class="text-5xl grid items-center h-36">4.5</p>
+                </div>
+                <!-- tengah -->
+                <div class="p-2 border-l border-r border-gray-300">
+                    <p class="p-2">Distribusi Keyword</p>
+                    <div class="">
+                        <canvas id="planet-chart" height="40vh" width="100vw"></canvas>
+                    </div>
+                </div>
+                <!-- kanan -->
+                <div class="p-2">
+                    <p class="p-2">Perubahan Keyword</p>
+                    <div class="grid grid-cols-2 items-center h-36 justify-around">
+                        <p class="text-4xl">4</p>
+                        <p class="text-4xl">1</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- content -->
+    <div class="px-8 pb-5 text-gray-700">
+        <!-- domain -->
+        <div>
+            <h2 class="text-lg pb-3 font-medium">Keyword</h2>
+            <div class="grid grid-cols-4 text-center bg-white shadow-md rounded-md">
+                <!-- kiri -->
+                <div class="text-left col-span-2">
+                    <p class="px-5 py-2 rounded-tl-md bg-gray-200 border-gray-300">Domain</p>
+                    <input class="p-3 w-full outline-none" type="text" value="https://www.elgoritme.com/">
+                </div>
+                <!-- tengah -->
+                <div class="border-l border-r border-gray-300">
+                    <p class="px-5 py-2 bg-gray-200 border-gray-300">Domain Otoritas</p>
+                    <input class="p-3 w-full outline-none text-center" type="number" value="9">
+                </div>
+                <!-- kanan -->
+                <div class="">
+                    <p class="px-5 py-2 rounded-tr-md bg-gray-200 border-gray-300">Halaman Terindex</p>
+                    <input class="p-3 w-full outline-none text-center" type="number" value="20">
+                </div>
+            </div>
+        </div>
+        <!-- keyword -->
+        <div class="py-5">
+            <div class="py-5 grid grid-cols-5 text-center bg-white shadow-lg rounded-md">
+                <!-- kata kuci -->
+                <div class="pl-5 col-span-2 text-left">
+                    <!-- judul -->
+                    <p class="font-medium py-2 border-b border-gray-300">Keyword</p>
+                    <!-- input keyword -->
+                    <div class="p-2">
+                        <input class="py-2 w-full outline-none" type="text" value="tutorial javascript">
+                        <input class="py-2 w-full outline-none" type="text" value="tutorial ruby">
+                        <input class="py-2 w-full outline-none" type="text" value="tutorial python">
+                        <input class="py-2 w-full outline-none" type="text" value="tutorial php">
+                        <input class="py-2 w-full outline-none" type="text" value="tutorial java">
+                        <input class="py-2 w-full outline-none" type="text" value="tutorial golang">
+                    </div>
+                </div>
+                <!-- rank -->
+                <div class="dua">
+                    <p class="font-medium py-2 border-b border-gray-300">Peringkat</p>
+                    <div class="p-2">
+                        <input class="py-2 text-center w-full outline-none" type="number" value="1">
+                        <input class="py-2 text-center w-full outline-none" type="number" value="3">
+                        <input class="py-2 text-center w-full outline-none" type="number" value="2">
+                        <input class="py-2 text-center w-full outline-none" type="number" value="5">
+                        <input class="py-2 text-center w-full outline-none" type="number" value="2">
+                        <input class="py-2 text-center w-full outline-none" type="number" value="6">
+                    </div>
+                </div>
+                <!-- evolusi -->
+                <div class="tiga">
+                    <p class="font-medium py-2 border-b border-gray-300">Evolusi</p>
+                    <div class="p-2">
+                        <input class="py-2 text-center w-full outline-none" type="text" value="Grafik">
+                        <input class="py-2 text-center w-full outline-none" type="text" value="Grafik">
+                        <input class="py-2 text-center w-full outline-none" type="text" value="Grafik">
+                        <input class="py-2 text-center w-full outline-none" type="text" value="Grafik">
+                        <input class="py-2 text-center w-full outline-none" type="text" value="Grafik">
+                        <input class="py-2 text-center w-full outline-none" type="text" value="Grafik">
+                    </div>
+                </div>
+                <!-- perubahan -->
+                <div class="pr-5">
+                    <p class="font-medium py-2 border-b border-gray-300">Perubahan Terakhir</p>
+                    <div class="p-2">
+                        <input class="py-2 text-center w-full outline-none" type="date">
+                        <input class="py-2 text-center w-full outline-none" type="date">
+                        <input class="py-2 text-center w-full outline-none" type="date">
+                        <input class="py-2 text-center w-full outline-none" type="date">
+                        <input class="py-2 text-center w-full outline-none" type="date">
+                        <input class="py-2 text-center w-full outline-none" type="date">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- date -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+    <script src="https://unpkg.com/lightpick@latest/lightpick.js"></script>
+    <script src="assets/js/date.js"></script>
+    <!-- chart -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+    <script src="assets/js/chart.js"></script>
+    <!-- vue -->
+    <script src="assets/vendor/vue.js"></script>
+    <script src="assets/js/app.js"></script>
+</body>
+
+</html>
