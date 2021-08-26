@@ -16,138 +16,387 @@
 </head>
 
 <body class="bg-gray-100">
-    <!-- header -->
-    <header class="px-8 py-5 text-gray-700">
-        <nav class="flex justify-between items-center">
-            <!-- kiri -->
-            <div class="leading-8">
-                <h1 class="text-2xl font-bold">Laporan Analisa SEO:
-                    <input autocomplete="off" type="text" value="PT Elgoritme"
-                        class="w-64 text-2xl font-bold text-gray-700 bg-gray-100 px-1 focus:outline-none" />
-                </h1>
-                <!-- date -->
-                <div class="flex items-center text-md">
-                    <p class="">Periode: </p>
-                    <p class="hidden" id="result-2">&nbsp;</p>
-                    <input autocomplete="off" type="text" id="demo-2" placeholder="Date Range Picker"
-                        class="w-60 bg-gray-100 px-2 focus:outline-none" />
+    <div id="app">
+        <!-- header -->
+        <header class="px-8 py-5 text-gray-700">
+            <nav class="flex justify-between items-center">
+                <!-- kiri -->
+                <div class="leading-8">
+                    <h1 class="text-2xl text-red-500 font-bold">Laporan Analisa SEO:
+                        <input autocomplete="off" type="text" placeholder="nama project"
+                            class="w-72 text-2xl font-bold text-red-500 bg-gray-100 px-1 focus:outline-none" />
+                    </h1>
+                    <!-- date -->
+                    <div class="flex items-center text-md">
+                        <p class="">Periode: </p>
+                        <p class="hidden" id="result-2">&nbsp;</p>
+                        <input autocomplete="off" type="text" id="demo-2" placeholder="date range picker"
+                            class="w-60 bg-gray-100 px-2 focus:outline-none" />
+                    </div>
+                </div>
+                <!-- kanan -->
+                <img class="w-36" src="assets/img/logo.png" alt="">
+            </nav>
+            <hr class="my-4 border-2 border-red-100">
+
+            <!-- hero -->
+            <div class="">
+                <h2 class="text-lg pb-3 text-red-500 font-medium">Gambaran Semua Kata Kunci</h2>
+                <!-- statistik -->
+                <div class="grid grid-cols-3 bg-white shadow-lg text-center rounded-md">
+                    <!-- kiri -->
+                    <div class="p-2">
+                        <p class="p-2">Posisi (Rata-rata)</p>
+                        <p class="text-5xl grid items-center h-36" id="average" v-text="average"></p>
+                    </div>
+                    <!-- tengah -->
+                    <div class="p-2 col-span-1 border-l border-r border-gray-300">
+                        <p class="p-2 text-center">Distribusi Keyword</p>
+                        <div class="flex justify-around">
+                            <div class="flex text-red-400">
+                                <p class="">Top 3:</p>
+                                <input class="w-14 text-center outline-none" type="number" v-on:input="updateChart"
+                                    v-model="top[0]">
+                            </div>
+                            <div class="flex text-blue-400">
+                                <p class="">Top 10:</p>
+                                <input class="w-14 text-center outline-none" type="number" v-on:input="updateChart"
+                                    v-model="top[1]">
+                            </div>
+                            <div class="flex text-yellow-400">
+                                <p class="">Top 100:</p>
+                                <input class="w-14 text-center outline-none" type="number" v-on:input="updateChart"
+                                    v-model="top[2]">
+                            </div>
+                        </div>
+                        <div class="">
+                            <canvas class="" id="planet-chart" height="34vh" width="100vw"></canvas>
+                        </div>
+                    </div>
+                    <!-- kanan -->
+                    <div class="p-2">
+                        <p class="p-2">Perubahan Keyword</p>
+                        <div class="grid grid-cols-2 items-center h-36 justify-around">
+                            <!-- up -->
+                            <p class="text-4xl flex justify-center items-center">
+                                <!-- icon -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 mx-2 text-green-500"
+                                    viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                <!-- angka dinamis -->
+                                <label v-text="up"></label>
+                            </p>
+                            <!-- down -->
+                            <p class="text-4xl flex justify-center items-center">
+                                <!-- icon -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 mx-2 text-red-500"
+                                    viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v3.586L7.707 9.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 10.586V7z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                <!-- angka dinamis -->
+                                <label v-text="down"></label>
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <!-- kanan -->
-            <img class="w-36" src="assets/img/logo.png" alt="">
-        </nav>
-        <hr class="my-4 border-2">
-
-        <!-- hero -->
-        <div class="">
-            <h2 class="text-lg pb-3 font-medium">Gambaran Semua Kata Kunci</h2>
-            <!-- statistik -->
-            <div class="grid grid-cols-3 bg-white shadow-lg text-center rounded-md">
-                <!-- kiri -->
-                <div class="p-2">
-                    <p class="p-2">Posisi (Rata-rata)</p>
-                    <p class="text-5xl grid items-center h-36">4.5</p>
-                </div>
-                <!-- tengah -->
-                <div class="p-2 border-l border-r border-gray-300">
-                    <p class="p-2">Distribusi Keyword</p>
+        </header>
+        <!-- content -->
+        <div class="px-8 pb-5 text-gray-700">
+            <!-- domain -->
+            <div>
+                <h2 class="text-lg pb-3 text-red-500 font-medium">Keyword</h2>
+                <div class="grid grid-cols-4 text-center bg-white shadow-md rounded-md">
+                    <!-- kiri -->
+                    <div class="text-left col-span-2">
+                        <p class="px-5 py-2 rounded-tl-md bg-red-100 border-gray-300">Domain</p>
+                        <input class="p-3 w-full outline-none" type="text" value="" placeholder="masukan domain">
+                    </div>
+                    <!-- tengah -->
+                    <div class="border-l border-r border-gray-300">
+                        <p class="px-5 py-2 bg-red-100 border-gray-300">Domain Otoritas</p>
+                        <input class="p-3 w-full outline-none text-center" type="number" value="0">
+                    </div>
+                    <!-- kanan -->
                     <div class="">
-                        <canvas id="planet-chart" height="40vh" width="100vw"></canvas>
-                    </div>
-                </div>
-                <!-- kanan -->
-                <div class="p-2">
-                    <p class="p-2">Perubahan Keyword</p>
-                    <div class="grid grid-cols-2 items-center h-36 justify-around">
-                        <p class="text-4xl">4</p>
-                        <p class="text-4xl">1</p>
+                        <p class="px-5 py-2 rounded-tr-md bg-red-100 border-gray-300">Halaman Terindex</p>
+                        <input class="p-3 w-full outline-none text-center" type="number" value="0">
                     </div>
                 </div>
             </div>
-        </div>
-    </header>
+            <!-- table  -->
+            <div class="py-5">
+                <div class="py-5 grid grid-cols-6 text-center bg-white shadow-lg rounded-md">
+                    <!-- kata kuci -->
+                    <div class="pl-5 col-span-2 text-left">
+                        <!-- judul -->
+                        <p class="font-medium py-5 border-b-2 border-gray-300">Keyword</p>
+                        <!-- input keyword -->
+                        <div class="py-2">
+                            <input class="py-3 w-full outline-none" type="text" placeholder="masukan keyword">
+                            <input class="py-3 w-full outline-none" type="text" placeholder="masukan keyword">
+                            <input class="py-3 w-full outline-none" type="text" placeholder="masukan keyword">
+                            <input class="py-3 w-full outline-none" type="text" placeholder="masukan keyword">
+                            <input class=" py-3 w-full outline-none" type="text" placeholder="masukan keyword">
+                            <input class="py-3 w-full outline-none" type="text" placeholder="masukan keyword">
+                            <input class="py-3 w-full outline-none" type="text" placeholder="masukan keyword">
+                            <input class=" py-3 w-full outline-none" type="text" placeholder="masukan keyword">
+                            <input class="py-3 w-full outline-none" type="text" placeholder="masukan keyword">
+                            <input class="py-3 w-full outline-none" type="text" placeholder="masukan keyword">
+                        </div>
+                    </div>
+                    <!-- rank -->
+                    <div class="col-span-2">
+                        <div class="">
+                            <p class="py-1 font-medium">Peringkat</p>
+                            <!-- 2 minggu lalu -->
+                            <div class="flex justify-around">
+                                <div class="">
+                                    <p class="py-1.5 text-sm text-red-400 border-b-2 border-gray-300">2 Minggu Lalu</p>
+                                    <div class="py-2">
+                                        <input class="py-3 text-center w-full outline-none" type="number"
+                                            v-model="twoWeeksAgo[0]" v-on:input="minWeeks">
+                                        <input class=" py-3 text-center w-full outline-none" type="number"
+                                            v-model="twoWeeksAgo[1]" v-on:input="minWeeks">
+                                        <input class=" py-3 text-center w-full outline-none" type="number"
+                                            v-model="twoWeeksAgo[2]" v-on:input="minWeeks">
+                                        <input class=" py-3 text-center w-full outline-none" type="number"
+                                            v-model="twoWeeksAgo[3]" v-on:input="minWeeks">
+                                        <input class=" py-3 text-center w-full outline-none" type="number"
+                                            v-model="twoWeeksAgo[4]" v-on:input="minWeeks">
+                                        <input class=" py-3 text-center w-full outline-none" type="number"
+                                            v-model="twoWeeksAgo[5]" v-on:input="minWeeks">
+                                        <input class=" py-3 text-center w-full outline-none" type="number"
+                                            v-model="twoWeeksAgo[6]" v-on:input="minWeeks">
+                                        <input class=" py-3 text-center w-full outline-none" type="number"
+                                            v-model="twoWeeksAgo[7]" v-on:input="minWeeks">
+                                        <input class=" py-3 text-center w-full outline-none" type="number"
+                                            v-model="twoWeeksAgo[8]" v-on:input="minWeeks">
+                                        <input class=" py-3 text-center w-full outline-none" type="number"
+                                            v-model="twoWeeksAgo[9]" v-on:input="minWeeks">
+                                    </div>
+                                </div>
+                                <!-- minggu lalu -->
+                                <div>
+                                    <p class=" py-1.5 text-sm text-blue-400 border-b-2 border-gray-300">Minggu Lalu</p>
+                                    <div class="py-2">
+                                        <input class="py-3 text-center w-full outline-none" type="number"
+                                            v-model="lastWeek[0]" v-on:input="minWeeks">
+                                        <input class="py-3 text-center w-full outline-none" type="number"
+                                            v-model="lastWeek[1]" v-on:input="minWeeks">
+                                        <input class="py-3 text-center w-full outline-none" type="number"
+                                            v-model="lastWeek[2]" v-on:input="minWeeks">
+                                        <input class="py-3 text-center w-full outline-none" type="number"
+                                            v-model="lastWeek[3]" v-on:input="minWeeks">
+                                        <input class="py-3 text-center w-full outline-none" type="number"
+                                            v-model="lastWeek[4]" v-on:input="minWeeks">
+                                        <input class="py-3 text-center w-full outline-none" type="number"
+                                            v-model="lastWeek[5]" v-on:input="minWeeks">
+                                        <input class="py-3 text-center w-full outline-none" type="number"
+                                            v-model="lastWeek[6]" v-on:input="minWeeks">
+                                        <input class="py-3 text-center w-full outline-none" type="number"
+                                            v-model="lastWeek[7]" v-on:input="minWeeks">
+                                        <input class="py-3 text-center w-full outline-none" type="number"
+                                            v-model="lastWeek[8]" v-on:input="minWeeks">
+                                        <input class="py-3 text-center w-full outline-none" type="number"
+                                            v-model="lastWeek[9]" v-on:input="minWeeks">
+                                    </div>
+                                </div>
+                                <!-- minggu ini -->
+                                <div>
+                                    <p class="py-1.5 text-sm text-yellow-400 border-b-2 border-gray-300">Minggu Ini</p>
+                                    <div class="py-2">
+                                        <input class="py-3 text-center w-full outline-none" type="number"
+                                            v-model="thisWeek[0]" @change="totalAverage" v-on:input="minWeeks">
+                                        <input class="py-3 text-center w-full outline-none" type="number"
+                                            v-model="thisWeek[1]" @change="totalAverage" v-on:input="minWeeks">
+                                        <input class="py-3 text-center w-full outline-none" type="number"
+                                            v-model="thisWeek[2]" @change="totalAverage" v-on:input="minWeeks">
+                                        <input class="py-3 text-center w-full outline-none" type="number"
+                                            v-model="thisWeek[3]" @change="totalAverage" v-on:input="minWeeks">
+                                        <input class="py-3 text-center w-full outline-none" type="number"
+                                            v-model="thisWeek[4]" @change="totalAverage" v-on:input="minWeeks">
+                                        <input class="py-3 text-center w-full outline-none" type="number"
+                                            v-model="thisWeek[5]" @change="totalAverage" v-on:input="minWeeks">
+                                        <input class="py-3 text-center w-full outline-none" type="number"
+                                            v-model="thisWeek[6]" @change="totalAverage" v-on:input="minWeeks">
+                                        <input class="py-3 text-center w-full outline-none" type="number"
+                                            v-model="thisWeek[7]" @change="totalAverage" v-on:input="minWeeks">
+                                        <input class="py-3 text-center w-full outline-none" type="number"
+                                            v-model="thisWeek[8]" @change="totalAverage" v-on:input="minWeeks">
+                                        <input class="py-3 text-center w-full outline-none" type="number"
+                                            v-model="thisWeek[9]" @change="totalAverage" v-on:input="minWeeks">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-    <!-- content -->
-    <div class="px-8 pb-5 text-gray-700">
-        <!-- domain -->
-        <div>
-            <h2 class="text-lg pb-3 font-medium">Keyword</h2>
-            <div class="grid grid-cols-4 text-center bg-white shadow-md rounded-md">
-                <!-- kiri -->
-                <div class="text-left col-span-2">
-                    <p class="px-5 py-2 rounded-tl-md bg-gray-200 border-gray-300">Domain</p>
-                    <input class="p-3 w-full outline-none" type="text" value="https://www.elgoritme.com/">
-                </div>
-                <!-- tengah -->
-                <div class="border-l border-r border-gray-300">
-                    <p class="px-5 py-2 bg-gray-200 border-gray-300">Domain Otoritas</p>
-                    <input class="p-3 w-full outline-none text-center" type="number" value="9">
-                </div>
-                <!-- kanan -->
-                <div class="">
-                    <p class="px-5 py-2 rounded-tr-md bg-gray-200 border-gray-300">Halaman Terindex</p>
-                    <input class="p-3 w-full outline-none text-center" type="number" value="20">
-                </div>
-            </div>
-        </div>
-        <!-- keyword -->
-        <div class="py-5">
-            <div class="py-5 grid grid-cols-5 text-center bg-white shadow-lg rounded-md">
-                <!-- kata kuci -->
-                <div class="pl-5 col-span-2 text-left">
-                    <!-- judul -->
-                    <p class="font-medium py-2 border-b border-gray-300">Keyword</p>
-                    <!-- input keyword -->
-                    <div class="p-2">
-                        <input class="py-2 w-full outline-none" type="text" value="tutorial javascript">
-                        <input class="py-2 w-full outline-none" type="text" value="tutorial ruby">
-                        <input class="py-2 w-full outline-none" type="text" value="tutorial python">
-                        <input class="py-2 w-full outline-none" type="text" value="tutorial php">
-                        <input class="py-2 w-full outline-none" type="text" value="tutorial java">
-                        <input class="py-2 w-full outline-none" type="text" value="tutorial golang">
                     </div>
-                </div>
-                <!-- rank -->
-                <div class="dua">
-                    <p class="font-medium py-2 border-b border-gray-300">Peringkat</p>
-                    <div class="p-2">
-                        <input class="py-2 text-center w-full outline-none" type="number" value="1">
-                        <input class="py-2 text-center w-full outline-none" type="number" value="3">
-                        <input class="py-2 text-center w-full outline-none" type="number" value="2">
-                        <input class="py-2 text-center w-full outline-none" type="number" value="5">
-                        <input class="py-2 text-center w-full outline-none" type="number" value="2">
-                        <input class="py-2 text-center w-full outline-none" type="number" value="6">
+                    <!-- perubahan -->
+                    <div class="">
+                        <p class="font-medium py-5 border-b-2 border-gray-300">Perubahan Terakhir</p>
+                        <div class="py-2">
+                            <div class="">
+                                <p class="hidden" id="result-1">&nbsp;</p>
+                                <input autocomplete="off" class="py-3 w-full text-center outline-none" type="text"
+                                    id="date-1" placeholder="date">
+                            </div>
+                            <div class="">
+                                <p class="hidden" id="result-2">&nbsp;</p>
+                                <input autocomplete="off" class="py-3 w-full text-center outline-none" type="text"
+                                    id="date-2" placeholder="date">
+                            </div>
+                            <div class="">
+                                <p class="hidden" id="result-3">&nbsp;</p>
+                                <input autocomplete="off" class="py-3 w-full text-center outline-none" type="text"
+                                    id="date-3" placeholder="date">
+                            </div>
+                            <div class="">
+                                <p class="hidden" id="result-4">&nbsp;</p>
+                                <input autocomplete="off" class="py-3 w-full text-center outline-none" type="text"
+                                    id="date-4" placeholder="date">
+                            </div>
+                            <div class="">
+                                <p class="hidden" id="result-5">&nbsp;</p>
+                                <input autocomplete="off" class="py-3 w-full text-center outline-none" type="text"
+                                    id="date-5" placeholder="date">
+                            </div>
+                            <div class="">
+                                <p class="hidden" id="result-6">&nbsp;</p>
+                                <input autocomplete="off" class="py-3 w-full text-center outline-none" type="text"
+                                    id="date-6" placeholder="date">
+                            </div>
+                            <div class="">
+                                <p class="hidden" id="result-7">&nbsp;</p>
+                                <input autocomplete="off" class="py-3 w-full text-center outline-none" type="text"
+                                    id="date-7" placeholder="date">
+                            </div>
+                            <div class="">
+                                <p class="hidden" id="result-8">&nbsp;</p>
+                                <input autocomplete="off" class="py-3 w-full text-center outline-none" type="text"
+                                    id="date-8" placeholder="date">
+                            </div>
+                            <div class="">
+                                <p class="hidden" id="result-9">&nbsp;</p>
+                                <input autocomplete="off" class="py-3 w-full text-center outline-none" type="text"
+                                    id="date-9" placeholder="date">
+                            </div>
+                            <div class="">
+                                <p class="hidden" id="result-10">&nbsp;</p>
+                                <input autocomplete="off" class="py-3 w-full text-center outline-none" type="text"
+                                    id="date-10" placeholder="date">
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <!-- evolusi -->
-                <div class="tiga">
-                    <p class="font-medium py-2 border-b border-gray-300">Evolusi</p>
-                    <div class="p-2">
-                        <input class="py-2 text-center w-full outline-none" type="text" value="Grafik">
-                        <input class="py-2 text-center w-full outline-none" type="text" value="Grafik">
-                        <input class="py-2 text-center w-full outline-none" type="text" value="Grafik">
-                        <input class="py-2 text-center w-full outline-none" type="text" value="Grafik">
-                        <input class="py-2 text-center w-full outline-none" type="text" value="Grafik">
-                        <input class="py-2 text-center w-full outline-none" type="text" value="Grafik">
-                    </div>
-                </div>
-                <!-- perubahan -->
-                <div class="pr-5">
-                    <p class="font-medium py-2 border-b border-gray-300">Perubahan Terakhir</p>
-                    <div class="p-2">
-                        <input class="py-2 text-center w-full outline-none" type="date">
-                        <input class="py-2 text-center w-full outline-none" type="date">
-                        <input class="py-2 text-center w-full outline-none" type="date">
-                        <input class="py-2 text-center w-full outline-none" type="date">
-                        <input class="py-2 text-center w-full outline-none" type="date">
-                        <input class="py-2 text-center w-full outline-none" type="date">
+                    <!-- d/w/m -->
+                    <div class="pr-5">
+                        <p class="font-medium py-5 border-b-2 border-gray-300">D/W/M</p>
+                        <div class="py-2">
+                            <input disabled class="py-3 text-center w-full outline-none" type="number" v-model="dMW[0]">
+                            <input disabled class="py-3 text-center w-full outline-none" type="number" v-model="dMW[1]">
+                            <input disabled class="py-3 text-center w-full outline-none" type="number" v-model="dMW[2]">
+                            <input disabled class="py-3 text-center w-full outline-none" type="number" v-model="dMW[3]">
+                            <input disabled class="py-3 text-center w-full outline-none" type="number" v-model="dMW[4]">
+                            <input disabled class="py-3 text-center w-full outline-none" type="number" v-model="dMW[5]">
+                            <input disabled class="py-3 text-center w-full outline-none" type="number" v-model="dMW[6]">
+                            <input disabled class="py-3 text-center w-full outline-none" type="number" v-model="dMW[7]">
+                            <input disabled class="py-3 text-center w-full outline-none" type="number" v-model="dMW[8]">
+                            <input disabled class="py-3 text-center w-full outline-none" type="number" v-model="dMW[9]">
+                        </div>
                     </div>
                 </div>
             </div>
+            <!-- evolusi -->
+            <div class="pb-5">
+                <!-- statistik -->
+                <div class="grid grid-cols-5 bg-white shadow-lg text-center rounded-md">
+                    <!-- 1 -->
+                    <div class="p-2 border-r border-gray-300">
+                        <p class="p-2 text-center">Evolusi 1</p>
+                        <div class="">
+                            <canvas class="" id="chart-satu" height="34vh" width="100vw"></canvas>
+                        </div>
+                    </div>
+                    <!-- 2 -->
+                    <div class="p-2 border-r border-gray-300">
+                        <p class="p-2 text-center">Evolusi 2</p>
+                        <div class="">
+                            <canvas class="" id="chart-dua" height="34vh" width="100vw"></canvas>
+                        </div>
+                    </div>
+                    <!-- 3 -->
+                    <div class="p-2 border-r border-gray-300">
+                        <p class="p-2 text-center">Evolusi 3</p>
+                        <div class="">
+                            <canvas class="" id="chart-tiga" height="34vh" width="100vw"></canvas>
+                        </div>
+                    </div>
+                    <!-- 4 -->
+                    <div class="p-2 border-r border-gray-300">
+                        <p class="p-2 text-center">Evolusi 4</p>
+                        <div class="">
+                            <canvas class="" id="chart-empat" height="34vh" width="100vw"></canvas>
+                        </div>
+                    </div>
+                    <!-- 5 -->
+                    <div class="p-2 border-r border-gray-300">
+                        <p class="p-2 text-center">Evolusi 5</p>
+                        <div class="">
+                            <canvas class="" id="chart-lima" height="34vh" width="100vw"></canvas>
+                        </div>
+                    </div>
+                    <!-- 6 -->
+                    <div class="p-2 border-t border-r border-gray-300">
+                        <p class="p-2 text-center">Evolusi 6</p>
+                        <div class="">
+                            <canvas class="" id="chart-enam" height="34vh" width="100vw"></canvas>
+                        </div>
+                    </div>
+                    <!-- 7 -->
+                    <div class="p-2 border-t border-r border-gray-300">
+                        <p class="p-2 text-center">Evolusi 7</p>
+                        <div class="">
+                            <canvas class="" id="chart-tujuh" height="34vh" width="100vw"></canvas>
+                        </div>
+                    </div>
+                    <!-- 8 -->
+                    <div class="p-2 border-t border-r border-gray-300">
+                        <p class="p-2 text-center">Evolusi 8</p>
+                        <div class="">
+                            <canvas class="" id="chart-delapan" height="34vh" width="100vw"></canvas>
+                        </div>
+                    </div>
+                    <!-- 9 -->
+                    <div class="p-2 border-t border-r border-gray-300">
+                        <p class="p-2 text-center">Evolusi 9</p>
+                        <div class="">
+                            <canvas class="" id="chart-sembilan" height="34vh" width="100vw"></canvas>
+                        </div>
+                    </div>
+                    <!-- 10 -->
+                    <div class="p-2 border-t border-r border-gray-300">
+                        <p class="p-2 text-center">Evolusi 10</p>
+                        <div class="">
+                            <canvas class="" id="chart-sepuluh" height="34vh" width="100vw"></canvas>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- tombol -->
+            <button class="px-3 py-1 bg-red-500 text-white shadow-md rounded-md"
+                onclick="location.reload();localStorage.clear();">Clear</button>
         </div>
     </div>
-    </div>
 
+    <!-- vue -->
+    <script src="assets/vendor/vue.js"></script>
+    <script src="assets/js/app.js"></script>
     <!-- date -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
     <script src="https://unpkg.com/lightpick@latest/lightpick.js"></script>
@@ -155,9 +404,7 @@
     <!-- chart -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
     <script src="assets/js/chart.js"></script>
-    <!-- vue -->
-    <script src="assets/vendor/vue.js"></script>
-    <script src="assets/js/app.js"></script>
+
 </body>
 
 </html>
