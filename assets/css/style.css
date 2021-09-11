@@ -3,3 +3,15 @@
 body {
     font-family: 'Poppins', sans-serif;
 }
+
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator {
+    margin-left: -10px;
+}
+
+.py-27 {
+    padding: 0.75rem;
+    /* -webkit-padding: 0.7rem; */
+    -webkit-padding-before: 0.7rem;
+    -webkit-padding-after: 0.7rem;
+}

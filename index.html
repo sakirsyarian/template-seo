@@ -23,7 +23,8 @@
                 <!-- kiri -->
                 <div class="leading-8">
                     <h1 class="text-2xl text-red-500 font-bold">Laporan Analisa SEO:
-                        <input autocomplete="off" type="text" placeholder="nama project"
+                        <input id="project" v-model="project" @change="localStorage" autocomplete="off" type="text"
+                            placeholder="nama project"
                             class="w-72 text-2xl font-bold text-red-500 bg-gray-100 px-1 focus:outline-none" />
                     </h1>
                     <!-- date -->
@@ -115,122 +116,78 @@
                     <!-- kiri -->
                     <div class="text-left col-span-2">
                         <p class="px-5 py-2 rounded-tl-md bg-red-100 border-gray-300">Domain</p>
-                        <input class="p-3 w-full outline-none" type="text" value="" placeholder="masukan domain">
+                        <input class="p-3 w-full outline-none" type="text" v-model="domain" placeholder="masukan domain"
+                            @change="localStorage">
                     </div>
                     <!-- tengah -->
                     <div class="border-l border-r border-gray-300">
                         <p class="px-5 py-2 bg-red-100 border-gray-300">Domain Otoritas</p>
-                        <input class="p-3 w-full outline-none text-center" type="number" value="0">
+                        <input class="p-3 w-full outline-none text-center" type="number" v-model="otoritas"
+                            @change="localStorage">
                     </div>
                     <!-- kanan -->
                     <div class="">
                         <p class="px-5 py-2 rounded-tr-md bg-red-100 border-gray-300">Halaman Terindex</p>
-                        <input class="p-3 w-full outline-none text-center" type="number" value="0">
+                        <input class="p-3 w-full outline-none text-center" type="number" v-model="index"
+                            @change="localStorage">
                     </div>
                 </div>
             </div>
             <!-- table  -->
             <div class="py-5">
-                <div class="py-5 grid grid-cols-6 text-center bg-white shadow-lg rounded-md">
+                <div class="py-5 grid grid-cols-11 text-center bg-white shadow-lg rounded-md">
                     <!-- kata kuci -->
-                    <div class="pl-5 col-span-2 text-left">
+                    <div class="pl-5 col-span-3 text-left">
                         <!-- judul -->
                         <p class="font-medium py-5 border-b-2 border-gray-300">Keyword</p>
                         <!-- input keyword -->
                         <div class="py-2">
-                            <input class="py-3 w-full outline-none" type="text" placeholder="masukan keyword">
-                            <input class="py-3 w-full outline-none" type="text" placeholder="masukan keyword">
-                            <input class="py-3 w-full outline-none" type="text" placeholder="masukan keyword">
-                            <input class="py-3 w-full outline-none" type="text" placeholder="masukan keyword">
-                            <input class=" py-3 w-full outline-none" type="text" placeholder="masukan keyword">
-                            <input class="py-3 w-full outline-none" type="text" placeholder="masukan keyword">
-                            <input class="py-3 w-full outline-none" type="text" placeholder="masukan keyword">
-                            <input class=" py-3 w-full outline-none" type="text" placeholder="masukan keyword">
-                            <input class="py-3 w-full outline-none" type="text" placeholder="masukan keyword">
-                            <input class="py-3 w-full outline-none" type="text" placeholder="masukan keyword">
+                            <div v-for="(list, index) in allData" :key="index">
+                                <input class="py-3 w-full outline-none" placeholder="masukan keyword" type="text"
+                                    name="name" v-model="list.keywords" />
+                            </div>
                         </div>
                     </div>
                     <!-- rank -->
-                    <div class="col-span-2">
+                    <div class="col-span-3">
                         <div class="">
                             <p class="py-1 font-medium">Peringkat</p>
                             <!-- 2 minggu lalu -->
                             <div class="flex justify-around">
-                                <div class="">
-                                    <p class="py-1.5 text-sm text-red-400 border-b-2 border-gray-300">2 Minggu Lalu</p>
+                                <div class="w-full">
+                                    <p class="py-1.5 text-sm text-red-400 border-b-2 border-gray-300">2 Minggu Lalu
+                                    </p>
                                     <div class="py-2">
-                                        <input class="py-3 text-center w-full outline-none" type="number"
-                                            v-model="twoWeeksAgo[0]" v-on:input="minWeeks">
-                                        <input class=" py-3 text-center w-full outline-none" type="number"
-                                            v-model="twoWeeksAgo[1]" v-on:input="minWeeks">
-                                        <input class=" py-3 text-center w-full outline-none" type="number"
-                                            v-model="twoWeeksAgo[2]" v-on:input="minWeeks">
-                                        <input class=" py-3 text-center w-full outline-none" type="number"
-                                            v-model="twoWeeksAgo[3]" v-on:input="minWeeks">
-                                        <input class=" py-3 text-center w-full outline-none" type="number"
-                                            v-model="twoWeeksAgo[4]" v-on:input="minWeeks">
-                                        <input class=" py-3 text-center w-full outline-none" type="number"
-                                            v-model="twoWeeksAgo[5]" v-on:input="minWeeks">
-                                        <input class=" py-3 text-center w-full outline-none" type="number"
-                                            v-model="twoWeeksAgo[6]" v-on:input="minWeeks">
-                                        <input class=" py-3 text-center w-full outline-none" type="number"
-                                            v-model="twoWeeksAgo[7]" v-on:input="minWeeks">
-                                        <input class=" py-3 text-center w-full outline-none" type="number"
-                                            v-model="twoWeeksAgo[8]" v-on:input="minWeeks">
-                                        <input class=" py-3 text-center w-full outline-none" type="number"
-                                            v-model="twoWeeksAgo[9]" v-on:input="minWeeks">
+                                        <div v-for="(list, index) in allData" :key="list.id">
+                                            <input class="py-3 text-center w-full outline-none" type="number"
+                                                v-model="list.twoWeeksAgo" v-on:input="minWeeks" />
+                                        </div>
                                     </div>
                                 </div>
                                 <!-- minggu lalu -->
-                                <div>
-                                    <p class=" py-1.5 text-sm text-blue-400 border-b-2 border-gray-300">Minggu Lalu</p>
+                                <div class="w-full">
+                                    <p class=" py-1.5 text-sm text-blue-400 border-b-2 border-gray-300">Minggu Lalu
+                                    </p>
                                     <div class="py-2">
-                                        <input class="py-3 text-center w-full outline-none" type="number"
-                                            v-model="lastWeek[0]" v-on:input="minWeeks">
-                                        <input class="py-3 text-center w-full outline-none" type="number"
-                                            v-model="lastWeek[1]" v-on:input="minWeeks">
-                                        <input class="py-3 text-center w-full outline-none" type="number"
-                                            v-model="lastWeek[2]" v-on:input="minWeeks">
-                                        <input class="py-3 text-center w-full outline-none" type="number"
-                                            v-model="lastWeek[3]" v-on:input="minWeeks">
-                                        <input class="py-3 text-center w-full outline-none" type="number"
-                                            v-model="lastWeek[4]" v-on:input="minWeeks">
-                                        <input class="py-3 text-center w-full outline-none" type="number"
-                                            v-model="lastWeek[5]" v-on:input="minWeeks">
-                                        <input class="py-3 text-center w-full outline-none" type="number"
-                                            v-model="lastWeek[6]" v-on:input="minWeeks">
-                                        <input class="py-3 text-center w-full outline-none" type="number"
-                                            v-model="lastWeek[7]" v-on:input="minWeeks">
-                                        <input class="py-3 text-center w-full outline-none" type="number"
-                                            v-model="lastWeek[8]" v-on:input="minWeeks">
-                                        <input class="py-3 text-center w-full outline-none" type="number"
-                                            v-model="lastWeek[9]" v-on:input="minWeeks">
+                                        <div v-for="(list, index) in allData" :key="list.id">
+                                            <input class="py-3 text-center w-full outline-none" type="number"
+                                                v-model="list.lastWeek" v-on:input="minWeeks" />
+                                        </div>
+                                        <!-- <input class="py-3 text-center w-full outline-none" type="number"
+                                            v-model="lastWeek[0]" v-on:input="minWeeks"> -->
                                     </div>
                                 </div>
                                 <!-- minggu ini -->
-                                <div>
-                                    <p class="py-1.5 text-sm text-yellow-400 border-b-2 border-gray-300">Minggu Ini</p>
+                                <div class="w-full">
+                                    <p class="py-1.5 text-sm text-yellow-400 border-b-2 border-gray-300">Minggu Ini
+                                    </p>
                                     <div class="py-2">
-                                        <input class="py-3 text-center w-full outline-none" type="number"
-                                            v-model="thisWeek[0]" @change="totalAverage" v-on:input="minWeeks">
-                                        <input class="py-3 text-center w-full outline-none" type="number"
-                                            v-model="thisWeek[1]" @change="totalAverage" v-on:input="minWeeks">
-                                        <input class="py-3 text-center w-full outline-none" type="number"
-                                            v-model="thisWeek[2]" @change="totalAverage" v-on:input="minWeeks">
-                                        <input class="py-3 text-center w-full outline-none" type="number"
-                                            v-model="thisWeek[3]" @change="totalAverage" v-on:input="minWeeks">
-                                        <input class="py-3 text-center w-full outline-none" type="number"
-                                            v-model="thisWeek[4]" @change="totalAverage" v-on:input="minWeeks">
-                                        <input class="py-3 text-center w-full outline-none" type="number"
-                                            v-model="thisWeek[5]" @change="totalAverage" v-on:input="minWeeks">
-                                        <input class="py-3 text-center w-full outline-none" type="number"
-                                            v-model="thisWeek[6]" @change="totalAverage" v-on:input="minWeeks">
-                                        <input class="py-3 text-center w-full outline-none" type="number"
-                                            v-model="thisWeek[7]" @change="totalAverage" v-on:input="minWeeks">
-                                        <input class="py-3 text-center w-full outline-none" type="number"
-                                            v-model="thisWeek[8]" @change="totalAverage" v-on:input="minWeeks">
-                                        <input class="py-3 text-center w-full outline-none" type="number"
-                                            v-model="thisWeek[9]" @change="totalAverage" v-on:input="minWeeks">
+                                        <div v-for="(list, index) in allData" :key="list.id">
+                                            <input class="py-3 text-center w-full outline-none" type="number"
+                                                v-model="list.thisWeek" v-on:input="minWeeks" @change="totalAverage" />
+                                        </div>
+                                        <!-- <input class="py-3 text-center w-full outline-none" type="number"
+                                            v-model="thisWeek[4]" @change="totalAverage" v-on:input="minWeeks"> -->
                                     </div>
                                 </div>
                             </div>
@@ -238,75 +195,43 @@
 
                     </div>
                     <!-- perubahan -->
-                    <div class="">
+                    <div class="col-span-2">
                         <p class="font-medium py-5 border-b-2 border-gray-300">Perubahan Terakhir</p>
                         <div class="py-2">
-                            <div class="">
+                            <div v-for="(list, index) in allData" :key="list.id">
+                                <input autocomplete="off" class="py-27 w-full text-center outline-none" type="date"
+                                    placeholder="date">
+                            </div>
+                            <!-- <div class="">
                                 <p class="hidden" id="result-1">&nbsp;</p>
                                 <input autocomplete="off" class="py-3 w-full text-center outline-none" type="text"
                                     id="date-1" placeholder="date">
-                            </div>
-                            <div class="">
-                                <p class="hidden" id="result-2">&nbsp;</p>
-                                <input autocomplete="off" class="py-3 w-full text-center outline-none" type="text"
-                                    id="date-2" placeholder="date">
-                            </div>
-                            <div class="">
-                                <p class="hidden" id="result-3">&nbsp;</p>
-                                <input autocomplete="off" class="py-3 w-full text-center outline-none" type="text"
-                                    id="date-3" placeholder="date">
-                            </div>
-                            <div class="">
-                                <p class="hidden" id="result-4">&nbsp;</p>
-                                <input autocomplete="off" class="py-3 w-full text-center outline-none" type="text"
-                                    id="date-4" placeholder="date">
-                            </div>
-                            <div class="">
-                                <p class="hidden" id="result-5">&nbsp;</p>
-                                <input autocomplete="off" class="py-3 w-full text-center outline-none" type="text"
-                                    id="date-5" placeholder="date">
-                            </div>
-                            <div class="">
-                                <p class="hidden" id="result-6">&nbsp;</p>
-                                <input autocomplete="off" class="py-3 w-full text-center outline-none" type="text"
-                                    id="date-6" placeholder="date">
-                            </div>
-                            <div class="">
-                                <p class="hidden" id="result-7">&nbsp;</p>
-                                <input autocomplete="off" class="py-3 w-full text-center outline-none" type="text"
-                                    id="date-7" placeholder="date">
-                            </div>
-                            <div class="">
-                                <p class="hidden" id="result-8">&nbsp;</p>
-                                <input autocomplete="off" class="py-3 w-full text-center outline-none" type="text"
-                                    id="date-8" placeholder="date">
-                            </div>
-                            <div class="">
-                                <p class="hidden" id="result-9">&nbsp;</p>
-                                <input autocomplete="off" class="py-3 w-full text-center outline-none" type="text"
-                                    id="date-9" placeholder="date">
-                            </div>
-                            <div class="">
-                                <p class="hidden" id="result-10">&nbsp;</p>
-                                <input autocomplete="off" class="py-3 w-full text-center outline-none" type="text"
-                                    id="date-10" placeholder="date">
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                     <!-- d/w/m -->
-                    <div class="pr-5">
+                    <div class="col-span-2">
                         <p class="font-medium py-5 border-b-2 border-gray-300">D/W/M</p>
                         <div class="py-2">
-                            <input disabled class="py-3 text-center w-full outline-none" type="number" v-model="dMW[0]">
-                            <input disabled class="py-3 text-center w-full outline-none" type="number" v-model="dMW[1]">
-                            <input disabled class="py-3 text-center w-full outline-none" type="number" v-model="dMW[2]">
-                            <input disabled class="py-3 text-center w-full outline-none" type="number" v-model="dMW[3]">
-                            <input disabled class="py-3 text-center w-full outline-none" type="number" v-model="dMW[4]">
-                            <input disabled class="py-3 text-center w-full outline-none" type="number" v-model="dMW[5]">
-                            <input disabled class="py-3 text-center w-full outline-none" type="number" v-model="dMW[6]">
-                            <input disabled class="py-3 text-center w-full outline-none" type="number" v-model="dMW[7]">
-                            <input disabled class="py-3 text-center w-full outline-none" type="number" v-model="dMW[8]">
-                            <input disabled class="py-3 text-center w-full outline-none" type="number" v-model="dMW[9]">
+                            <div v-for="(list, index) in allData" :key="list.id">
+                                <input class="py-3 text-center w-full outline-none" type="number" v-model="list.dMW"
+                                    v-on:input="minWeeks" />
+                            </div>
+                            <!-- <input disabled class="py-3 text-center w-full outline-none" type="number" v-model="dMW[0]"> -->
+                        </div>
+                    </div>
+                    <!-- hapus -->
+                    <div class="pr-5">
+                        <p class="font-medium py-5 border-b-2 border-gray-300">Action</p>
+                        <div class="py-2">
+                            <div v-for="(list, index) in allData" :key="index">
+                                <svg xmlns="http://www.w3.org/2000/svg" v-on:click="deleteItem(index)"
+                                    class="mx-auto py-3 w-6 cursor-pointer" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                </svg>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -316,81 +241,24 @@
                 <!-- statistik -->
                 <div class="grid grid-cols-5 bg-white shadow-lg text-center rounded-md">
                     <!-- 1 -->
-                    <div class="p-2 border-r border-gray-300">
-                        <p class="p-2 text-center">Evolusi 1</p>
-                        <div class="">
-                            <canvas class="" id="chart-satu" height="34vh" width="100vw"></canvas>
+                    <div v-for="(list, index) in allData" :key="index">
+                        <div class="p-2 h-full w-full border-gray-300">
+                            <p class="p-2 text-center">{{ index+1 }} {{ list.keywords }}</p>
+                            <div class="">
+                                <canvas class="" id="chart-satu" height="34vh" width="100vw"></canvas>
+                            </div>
                         </div>
                     </div>
-                    <!-- 2 -->
-                    <div class="p-2 border-r border-gray-300">
-                        <p class="p-2 text-center">Evolusi 2</p>
-                        <div class="">
-                            <canvas class="" id="chart-dua" height="34vh" width="100vw"></canvas>
-                        </div>
-                    </div>
-                    <!-- 3 -->
-                    <div class="p-2 border-r border-gray-300">
-                        <p class="p-2 text-center">Evolusi 3</p>
-                        <div class="">
-                            <canvas class="" id="chart-tiga" height="34vh" width="100vw"></canvas>
-                        </div>
-                    </div>
-                    <!-- 4 -->
-                    <div class="p-2 border-r border-gray-300">
-                        <p class="p-2 text-center">Evolusi 4</p>
-                        <div class="">
-                            <canvas class="" id="chart-empat" height="34vh" width="100vw"></canvas>
-                        </div>
-                    </div>
-                    <!-- 5 -->
-                    <div class="p-2 border-r border-gray-300">
-                        <p class="p-2 text-center">Evolusi 5</p>
-                        <div class="">
-                            <canvas class="" id="chart-lima" height="34vh" width="100vw"></canvas>
-                        </div>
-                    </div>
-                    <!-- 6 -->
-                    <div class="p-2 border-t border-r border-gray-300">
-                        <p class="p-2 text-center">Evolusi 6</p>
-                        <div class="">
-                            <canvas class="" id="chart-enam" height="34vh" width="100vw"></canvas>
-                        </div>
-                    </div>
-                    <!-- 7 -->
-                    <div class="p-2 border-t border-r border-gray-300">
-                        <p class="p-2 text-center">Evolusi 7</p>
-                        <div class="">
-                            <canvas class="" id="chart-tujuh" height="34vh" width="100vw"></canvas>
-                        </div>
-                    </div>
-                    <!-- 8 -->
-                    <div class="p-2 border-t border-r border-gray-300">
-                        <p class="p-2 text-center">Evolusi 8</p>
-                        <div class="">
-                            <canvas class="" id="chart-delapan" height="34vh" width="100vw"></canvas>
-                        </div>
-                    </div>
-                    <!-- 9 -->
-                    <div class="p-2 border-t border-r border-gray-300">
-                        <p class="p-2 text-center">Evolusi 9</p>
-                        <div class="">
-                            <canvas class="" id="chart-sembilan" height="34vh" width="100vw"></canvas>
-                        </div>
-                    </div>
-                    <!-- 10 -->
-                    <div class="p-2 border-t border-r border-gray-300">
-                        <p class="p-2 text-center">Evolusi 10</p>
-                        <div class="">
-                            <canvas class="" id="chart-sepuluh" height="34vh" width="100vw"></canvas>
-                        </div>
-                    </div>
-
                 </div>
             </div>
-            <!-- tombol -->
-            <button class="px-3 py-1 bg-red-500 text-white shadow-md rounded-md"
-                onclick="location.reload();localStorage.clear();">Clear</button>
+            <!-- tambah -->
+            <div class="text-right">
+                <button class="px-3 py-1 bg-red-500 text-white shadow-md rounded-md" @click="addNewItems">Tambah
+                </button><!-- tombol -->
+                <button class="px-3 py-1 bg-red-500 text-white shadow-md rounded-md"
+                    onclick="location.reload();localStorage.clear();">Clear
+                </button>
+            </div>
         </div>
     </div>
 

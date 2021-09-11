@@ -1,16 +1,74 @@
 var app = new Vue({
   el: "#app",
   data: {
-    average: 0,
+    project: "",
+    average: "-",
     top: [0, 0, 0],
     up: 0,
     down: 0,
-    thisWeek: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    lastWeek: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    twoWeeksAgo: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    dMW: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    domain: "",
+    otoritas: 0,
+    index: 0,
+    allData: [
+      {
+        keywords: "",
+        thisWeek: 0,
+        lastWeek: 0,
+        twoWeeksAgo: 0,
+        dates: 0,
+        dMW: 0,
+      },
+      {
+        keywords: "",
+        thisWeek: 0,
+        lastWeek: 0,
+        twoWeeksAgo: 0,
+        dates: 0,
+        dMW: 0,
+      },
+      {
+        keywords: "",
+        thisWeek: 0,
+        lastWeek: 0,
+        twoWeeksAgo: 0,
+        dates: 0,
+        dMW: 0,
+      },
+      {
+        keywords: "",
+        thisWeek: 0,
+        lastWeek: 0,
+        twoWeeksAgo: 0,
+        dates: 0,
+        dMW: 0,
+      },
+      {
+        keywords: "",
+        thisWeek: 0,
+        lastWeek: 0,
+        twoWeeksAgo: 0,
+        dates: 0,
+        dMW: 0,
+      },
+    ],
+  },
+  created() {
+    this.project = localStorage.getItem("project") || "";
+    this.average = localStorage.getItem("posisi") || this.average;
+    this.top = JSON.parse(localStorage.getItem("top")) || this.top;
+    this.up = localStorage.getItem("up") || this.up;
+    this.down = localStorage.getItem("down") || this.down;
+    this.domain = localStorage.getItem("domain") || this.domain;
+    this.otoritas = localStorage.getItem("otoritas") || this.otoritas;
+    this.index = localStorage.getItem("index") || this.index;
   },
   methods: {
+    localStorage: function () {
+      localStorage.setItem("project", this.project);
+      localStorage.setItem("domain", this.domain);
+      localStorage.setItem("otoritas", this.otoritas);
+      localStorage.setItem("index", this.index);
+    },
     updateChart: function () {
       // chart top
       planetChartData.data.datasets.forEach((dataset) => {
@@ -19,108 +77,95 @@ var app = new Vue({
         planetChartData.data.datasets[0].data[2] = this.top[2];
       });
       planetChartData.update();
+      const parsed = JSON.stringify(this.top);
+      localStorage.setItem("top", parsed);
     },
+    // rata2
     totalAverage: function () {
       var sum = 0;
-      for (var i in this.thisWeek) {
-        sum += parseInt(this.thisWeek[i]);
+      for (var i in this.allData) {
+        sum += parseInt(this.allData[i].thisWeek);
       }
-      var numbersCnt = this.thisWeek.length;
+      var numbersCnt = this.allData.length;
       let total = sum / numbersCnt;
-      this.average = total;
+      this.average = Math.round(total);
+      if (this.average === 0) {
+        this.average = "-";
+      }
+      localStorage.setItem("posisi", this.average);
     },
     minWeeks: function () {
       // evolusi 1
       ChartLineSatu.data.datasets.forEach((dataset) => {
-        ChartLineSatu.data.datasets[0].data[0] = this.twoWeeksAgo[0];
-        ChartLineSatu.data.datasets[0].data[1] = this.lastWeek[0];
-        ChartLineSatu.data.datasets[0].data[2] = this.thisWeek[0];
+        ChartLineSatu.data.datasets[0].data[0] = this.allData[0].twoWeeksAgo;
+        ChartLineSatu.data.datasets[0].data[1] = this.allData[0].lastWeek;
+        ChartLineSatu.data.datasets[0].data[2] = this.allData[0].thisWeek;
       });
       ChartLineSatu.update();
       // evolusi 2
-      ChartLineDua.data.datasets.forEach((dataset) => {
-        ChartLineDua.data.datasets[0].data[0] = this.twoWeeksAgo[1];
-        ChartLineDua.data.datasets[0].data[1] = this.lastWeek[1];
-        ChartLineDua.data.datasets[0].data[2] = this.thisWeek[1];
-      });
-      ChartLineDua.update();
-      // evolusi 3
-      ChartLineTiga.data.datasets.forEach((dataset) => {
-        ChartLineTiga.data.datasets[0].data[0] = this.twoWeeksAgo[2];
-        ChartLineTiga.data.datasets[0].data[1] = this.lastWeek[2];
-        ChartLineTiga.data.datasets[0].data[2] = this.thisWeek[2];
-      });
-      ChartLineTiga.update();
-      // evolusi 4
-      ChartLineEmpat.data.datasets.forEach((dataset) => {
-        ChartLineEmpat.data.datasets[0].data[0] = this.twoWeeksAgo[3];
-        ChartLineEmpat.data.datasets[0].data[1] = this.lastWeek[3];
-        ChartLineEmpat.data.datasets[0].data[2] = this.thisWeek[3];
-      });
-      ChartLineEmpat.update();
-      // evolusi 5
-      ChartLineLima.data.datasets.forEach((dataset) => {
-        ChartLineLima.data.datasets[0].data[0] = this.twoWeeksAgo[4];
-        ChartLineLima.data.datasets[0].data[1] = this.lastWeek[4];
-        ChartLineLima.data.datasets[0].data[2] = this.thisWeek[4];
-      });
-      ChartLineLima.update();
-      // evolusi 6
-      ChartLineEnam.data.datasets.forEach((dataset) => {
-        ChartLineEnam.data.datasets[0].data[0] = this.twoWeeksAgo[5];
-        ChartLineEnam.data.datasets[0].data[1] = this.lastWeek[5];
-        ChartLineEnam.data.datasets[0].data[2] = this.thisWeek[5];
-      });
-      ChartLineEnam.update();
-      // evolusi 7
-      ChartLineTujuh.data.datasets.forEach((dataset) => {
-        ChartLineTujuh.data.datasets[0].data[0] = this.twoWeeksAgo[6];
-        ChartLineTujuh.data.datasets[0].data[1] = this.lastWeek[6];
-        ChartLineTujuh.data.datasets[0].data[2] = this.thisWeek[6];
-      });
-      ChartLineTujuh.update();
-      // evolusi 8
-      ChartLineDelapan.data.datasets.forEach((dataset) => {
-        ChartLineDelapan.data.datasets[0].data[0] = this.twoWeeksAgo[7];
-        ChartLineDelapan.data.datasets[0].data[1] = this.lastWeek[7];
-        ChartLineDelapan.data.datasets[0].data[2] = this.thisWeek[7];
-      });
-      ChartLineDelapan.update();
-      // evolusi 9
-      ChartLineSembilan.data.datasets.forEach((dataset) => {
-        ChartLineSembilan.data.datasets[0].data[0] = this.twoWeeksAgo[8];
-        ChartLineSembilan.data.datasets[0].data[1] = this.lastWeek[8];
-        ChartLineSembilan.data.datasets[0].data[2] = this.thisWeek[8];
-      });
-      ChartLineSembilan.update();
-      // evolusi 10
-      ChartLineSepuluh.data.datasets.forEach((dataset) => {
-        ChartLineSepuluh.data.datasets[0].data[0] = this.twoWeeksAgo[9];
-        ChartLineSepuluh.data.datasets[0].data[1] = this.lastWeek[9];
-        ChartLineSepuluh.data.datasets[0].data[2] = this.thisWeek[9];
-      });
-      ChartLineSepuluh.update();
+      // ChartLineDua.data.datasets.forEach((dataset) => {
+      //   ChartLineDua.data.datasets[0].data[0] = this.twoWeeksAgo[1];
+      //   ChartLineDua.data.datasets[0].data[1] = this.lastWeek[1];
+      //   ChartLineDua.data.datasets[0].data[2] = this.thisWeek[1];
+      // });
+      // ChartLineDua.update();
+      // // evolusi 3
+      // ChartLineTiga.data.datasets.forEach((dataset) => {
+      //   ChartLineTiga.data.datasets[0].data[0] = this.twoWeeksAgo[2];
+      //   ChartLineTiga.data.datasets[0].data[1] = this.lastWeek[2];
+      //   ChartLineTiga.data.datasets[0].data[2] = this.thisWeek[2];
+      // });
+      // ChartLineTiga.update();
+      // // evolusi 4
+      // ChartLineEmpat.data.datasets.forEach((dataset) => {
+      //   ChartLineEmpat.data.datasets[0].data[0] = this.twoWeeksAgo[3];
+      //   ChartLineEmpat.data.datasets[0].data[1] = this.lastWeek[3];
+      //   ChartLineEmpat.data.datasets[0].data[2] = this.thisWeek[3];
+      // });
+      // ChartLineEmpat.update();
+      // // evolusi 5
+      // ChartLineLima.data.datasets.forEach((dataset) => {
+      //   ChartLineLima.data.datasets[0].data[0] = this.twoWeeksAgo[4];
+      //   ChartLineLima.data.datasets[0].data[1] = this.lastWeek[4];
+      //   ChartLineLima.data.datasets[0].data[2] = this.thisWeek[4];
+      // });
+      // ChartLineLima.update();
 
       // pengurangan
-      this.dMW[0] = this.lastWeek[0] - this.thisWeek[0];
-      this.dMW[1] = this.lastWeek[1] - this.thisWeek[1];
-      this.dMW[2] = this.lastWeek[2] - this.thisWeek[2];
-      this.dMW[3] = this.lastWeek[3] - this.thisWeek[3];
-      this.dMW[4] = this.lastWeek[4] - this.thisWeek[4];
-      this.dMW[5] = this.lastWeek[5] - this.thisWeek[5];
-      this.dMW[6] = this.lastWeek[6] - this.thisWeek[6];
-      this.dMW[7] = this.lastWeek[7] - this.thisWeek[7];
-      this.dMW[8] = this.lastWeek[8] - this.thisWeek[8];
-      this.dMW[9] = this.lastWeek[9] - this.thisWeek[9];
-      var naik = this.dMW.filter(function (item) {
-        return item > 0;
-      });
-      this.up = naik.length;
+      for (let i = 0; i < this.allData.length; i++) {
+        this.allData[i].dMW =
+          this.allData[i].lastWeek - this.allData[i].thisWeek;
+      }
 
-      var turun = this.dMW.filter(function (item) {
-        return item < 0;
+      // up
+      var naik = this.allData.filter(function (item) {
+        return item.dMW > 0;
       });
+
+      this.up = naik.length;
+      localStorage.setItem("up", this.up);
+
+      // down
+      var turun = this.allData.filter(function (item) {
+        return item.dMW < 0;
+      });
+
       this.down = turun.length;
+      localStorage.setItem("down", this.down);
+    },
+    addNewItems: function () {
+      this.allData.push({
+        keywords: "",
+        thisWeek: 0,
+        lastWeek: 0,
+        twoWeeksAgo: 0,
+        dates: 0,
+        dMW: 0,
+      });
+    },
+    deleteItem: function (index) {
+      this.allData.splice(index, 1);
+      // window.location.reload();
     },
   },
 });
